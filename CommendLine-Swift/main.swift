@@ -5,10 +5,46 @@
 //  Created by jingwei on 2025/6/10.
 //
 
+/*
+ 笔记地址：https://juejin.cn/user/852876756006792/posts
+  B站上有视频
+  恋上数据结构与算法： https://blog.csdn.net/weixin_43734095/article/details/104847976
+ 
+ 课件和代码和测试小工具，需要的自取：
+ 链接：https://pan.baidu.com/s/1w8-6AVQf4i_pLd9S35nlGQ
+ 提取码：bnw6
+ 
+ */
+
 import Foundation
 
 
 
+// MARK: - 搜索二叉树
+/*
+ let personNode = BinarySearchTree<Person>.initBinarySearchTree([Person(age: 1),Person(age: 2)])
+ print(personNode)
+
+ let carNode = BinarySearchTree<Car>(compare: { $1.price - $0.price })
+ for item in arr {
+     carNode.add(Car(price: item))
+ }
+ print(carNode)
+ */
+let arr:[Int] = [7,4,9,2,5,8,11,3,12]
+let node = BinarySearchTree<Int>.initBinarySearchTree(arr)
+print(node)
+
+
+
+
+// MARK: - 栈
+/*
+ debugPrint("有效括号： \(Stack.isValid(s: "{{{}}}"))")
+ debugPrint("逆波兰表达式求值： \(Stack.evalRPN(["4","13","5","/","+"]))")
+ debugPrint("后缀表达式： \(Stack.change("1-(     -2)"))")
+ debugPrint("后缀表达式： \(Stack.calculate("1-(     -2)"))")
+ */
 
 
 /*
