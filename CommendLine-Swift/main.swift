@@ -21,6 +21,11 @@ import Foundation
 
 
 // MARK: - 搜索二叉树
+//let arr:[Int] = [7,4,9,2,5,8,11,3,12]
+let arr:[Int] = [5,1,4,3,6]
+let node = BinarySearchTree<Int>.initBinarySearchTree(arr)
+print("是否是二叉搜索树： \(node.isValidBST(node.root))")
+
 /*
  let personNode = BinarySearchTree<Person>.initBinarySearchTree([Person(age: 1),Person(age: 2)])
  print(personNode)
@@ -30,11 +35,14 @@ import Foundation
      carNode.add(Car(price: item))
  }
  print(carNode)
- */
-let arr:[Int] = [7,4,9,2,5,8,11,3,12]
-let node = BinarySearchTree<Int>.initBinarySearchTree(arr)
-print(node)
-
+ 
+ node.levelorder()
+ debugPrint("height: \(node.height(node.root))")
+ debugPrint("height: \(node.levelHeight(node.root))")
+ // 翻转二叉树
+ node.flipTree(node.root)
+ debugPrint("是否是完全二叉树 \(node.isComplete(node.root))")
+*/
 
 
 
@@ -44,9 +52,9 @@ print(node)
  debugPrint("逆波兰表达式求值： \(Stack.evalRPN(["4","13","5","/","+"]))")
  debugPrint("后缀表达式： \(Stack.change("1-(     -2)"))")
  debugPrint("后缀表达式： \(Stack.calculate("1-(     -2)"))")
- */
+*/
 
-
+// MARK: - 排序
 /*
  var numbers: Array = [8,7,6,5,4,3,2,1]
  for i in numbers {
@@ -62,7 +70,6 @@ print(node)
  print("合并有序数组 \(mergeSortArr(a: [1,3,5,7,9,11,22,33,44], b: [2,4,6,8,66,77,88,99]))")
 
  print("二分查找 \(binarySearch([1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33, 44, 66, 77, 88, 99], 99))")
-
 
  let head = ListNode();
  let a1 = ListNode(); a1.val = 1
@@ -81,5 +88,4 @@ print(node)
  printListNode(result)
 
  print(isPalindromicLink(node: a1))
-
  */
