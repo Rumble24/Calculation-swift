@@ -35,9 +35,9 @@ import Foundation
 
 let arr:[Int] = [7,4,11,2,6,9,13,1,3]
 let avl = AVL<Int>.initAVL(arr)
-avl.add(0)
-avl.add(-1)
-avl.add(-2)
+//avl.add(0)
+//avl.add(-1)
+//avl.add(-2)
 
 print("中序便利： \(avl.inorder(avl.root)) 跟：\(avl.root?.value)")
 

@@ -41,6 +41,7 @@ fileprivate class AVLNode<T>: Node<T> {
         let left = (self.left as? AVLNode)?.height ?? 0
         let right = (self.right as? AVLNode)?.height ?? 0
         height = max(left, right) + 1
+        debugPrint("updateHeight: \(height)  value: \(value)")
     }
     
     func tallerChild() -> AVLNode<T>? {
@@ -92,7 +93,7 @@ class AVL<T>: BinarySearchTree<T> {
             if (currentNode as! AVLNode).isBalance()  {
                 (currentNode as! AVLNode).updateHeight()
             } else {
-                addBalance(currentNode as? AVLNode<T>)
+                reBalance(currentNode as? AVLNode<T>)
                 break
             }
             currentNode = currentNode?.parent
@@ -100,6 +101,21 @@ class AVL<T>: BinarySearchTree<T> {
         return node
     }
 
+    // MARK: - 删除
+    override func remove(_ element: T) -> Node<T>? {
+        let node = super.remove(element)
+        var currentNode = node?.parent
+        while currentNode != nil {
+            if (currentNode as! AVLNode).isBalance()  {
+                (currentNode as! AVLNode).updateHeight()
+            } else {
+                reBalance(currentNode as? AVLNode<T>)
+            }
+            currentNode = currentNode?.parent
+        }
+        return node
+    }
+    
     /*
      现在必须知道 失衡的节点 不一定是 祖父节点 也有可能是曾祖父节点/更高的节点
      所以我们现在拿到失衡的节点之后[grand]，需要拿到parent和node节点
@@ -108,7 +124,7 @@ class AVL<T>: BinarySearchTree<T> {
      parent 是 grand 高的那个节点
      node 是 parent 高的那个节点
      */
-    private func addBalance(_ g: AVLNode<T>?) {
+    private func reBalance(_ g: AVLNode<T>?) {
         guard let g = g else { return }
         guard let p = g.tallerChild() else { return }
         guard let node = p.tallerChild() else { return }
@@ -131,23 +147,6 @@ class AVL<T>: BinarySearchTree<T> {
             leftSpin(g)
             print("RL 右旋转 左旋转")
         }
-    }
-    
-    
-    
-    
-    
-    
-    
-    override func remove(_ element: T) -> Node<T>? {
-        let node = super.remove(element)
-        removeBalance(node)
-        return node
-    }
-    
-    private func removeBalance(_ element: Node<T>?) {
-        guard let element = element else { return }
-
     }
     
     /*
@@ -208,8 +207,11 @@ class AVL<T>: BinarySearchTree<T> {
             newChild?.parent = parent
         }
     }
-}
+    
 
+    
+
+}
 
 
 
