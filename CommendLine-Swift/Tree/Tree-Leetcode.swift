@@ -20,6 +20,42 @@ public class TreeNode {
     }
 }
 
+
+// MARK: - 二叉树的题
+/*
+ ◼ 二叉树的前序遍历： https://leetcode-cn.com/problems/binary-tree-preorder-traversal/ （递归+迭代）
+ ◼ 二叉树的中序遍历： https://leetcode-cn.com/problems/binary-tree-inorder-traversal/ （递归+迭代）
+ ◼ 二叉树的后序遍历： https://leetcode-cn.com/problems/binary-tree-postorder-traversal/ （递归+迭代）
+ ◼ 二叉树的层次遍历： https://leetcode-cn.com/problems/binary-tree-level-order-traversal/ （迭代）
+ ◼ 二叉树的最大深度： https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/ （递归+迭代）
+ ◼ 二叉树的层次遍历II： https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/
+ ◼ 二叉树最大宽度：https://leetcode-cn.com/problems/maximum-width-of-binary-tree/
+ ◼ N叉树的前序遍历： https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/
+ ◼ N叉树的后序遍历： https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/
+ ◼ N叉树的最大深度： https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/
+ 
+ ◼ 二叉树展开为链表：https://leetcode-cn.com/problems/flatten-binary-tree-to-linked-list/
+ ◼ 从中序与后序遍历序列构造二叉树：https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+ ◼ 从前序与中序遍历序列构造二叉树：https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+ ◼ 根据前序和后序遍历构造二叉树：https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-postorder-traversal/
+ ◼ 对称二叉树：https://leetcode-cn.com/problems/symmetric-tree/
+ */
+extension Solution {
+}
+
+
+
+
+
+
+
+// MARK: - 二叉搜索树的题
+/*
+ ◼ 删除二叉搜索树中的节点：https://leetcode-cn.com/problems/delete-node-in-a-bst/
+ ◼ 二叉搜索树中第K小的元素：https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/
+ ◼ 二叉搜索树迭代器：https://leetcode-cn.com/problems/binary-search-tree-iterator/
+ ◼ 恢复二叉搜索树：https://leetcode-cn.com/problems/recover-binary-search-tree/
+ */
 extension Solution {
     /*
      ◼ 二叉搜索树中的搜索：https://leetcode-cn.com/problems/search-in-a-binary-search-tree/
@@ -163,11 +199,6 @@ extension Solution {
         inorder(root)
         return result
     }
-    
-    /*
-
-     */
-
 }
 
 
@@ -189,13 +220,4 @@ extension Solution {
 
 
 
-
-
-
-
-
-//◼ 删除二叉搜索树中的节点：https://leetcode-cn.com/problems/delete-node-in-a-bst/
-//◼ 二叉搜索树中第K小的元素：https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/
-//◼ 二叉搜索树迭代器：https://leetcode-cn.com/problems/binary-search-tree-iterator/
-//◼ 恢复二叉搜索树：https://leetcode-cn.com/problems/recover-binary-search-tree/
 

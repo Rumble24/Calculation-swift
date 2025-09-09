@@ -10,9 +10,11 @@
   B站上有视频
   恋上数据结构与算法： https://blog.csdn.net/weixin_43734095/article/details/104847976
  
- 课件和代码和测试小工具，需要的自取：
+ 课件和代码和测试小工具,需要的自取：
  链接：https://pan.baidu.com/s/1w8-6AVQf4i_pLd9S35nlGQ
  提取码：bnw6
+ 
+ 递归  转换为 迭代的时候 我们就需要 转换为栈
  
  */
 
@@ -21,12 +23,42 @@ import Foundation
 
 
 // MARK: - 搜索二叉树
-//let arr:[Int] = [7,4,9,2,5,8,11,3,12]
-let arr:[Int] = [5,1,4,3,6]
-let node = BinarySearchTree<Int>.initBinarySearchTree(arr)
-print("是否是二叉搜索树： \(node.isValidBST(node.root))")
+/*
+               7
+            /     \
+           4       11
+          / \     /  \
+         2   6   9    13
+        / \
+       1   3
+*/
+
+let arr:[Int] = [7,4,11,2,6,9,13,1,3]
+let avl = AVL<Int>.initAVL(arr)
+avl.add(0)
+avl.add(-1)
+avl.add(-2)
+
+print("中序便利： \(avl.inorder(avl.root)) 跟：\(avl.root?.value)")
+
+
+
 
 /*
+            7
+         /     \
+        4       11
+       / \     /  \
+      2   6    9    13
+     / \  /   / \   / \
+    1   3 5  8  10 12 14
+                        \
+                         15
+
+ let arr:[Int] = [7,4,11,2,6,9,13,1,3,5,8,10,12,14,15]
+ let node = BinarySearchTree<Int>.initBinarySearchTree(arr)
+ 
+ 
  let personNode = BinarySearchTree<Person>.initBinarySearchTree([Person(age: 1),Person(age: 2)])
  print(personNode)
 
@@ -42,7 +74,21 @@ print("是否是二叉搜索树： \(node.isValidBST(node.root))")
  // 翻转二叉树
  node.flipTree(node.root)
  debugPrint("是否是完全二叉树 \(node.isComplete(node.root))")
+ 
+ print("前驱节点：\(node.predecessor(node.root?.right?.left)?.value)")
+ 
+ node.remove(9)
+ print("删除节点： \(node.inorder())")
+
+ print("前序便利： \(node.preorder(node.root))")
+ print("中序便利： \(node.inorder(node.root))")
+ print("后序便利： \(node.postorder(node.root))")
+
+ print("前序便利： \(node.preorderTraversal(node.root))")
+ print("中序便利： \(node.inorderTraversal(node.root))")
+ print("后序便利： \(node.postorderTraversal(node.root))")
 */
+
 
 
 

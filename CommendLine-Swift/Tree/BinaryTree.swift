@@ -10,10 +10,10 @@ import Foundation
 class BinaryTree<T> {
     
     var root:Node<T>?
-    internal var count: Int = 0
+    var count: Int = 0
 
     func size() -> Int {
-        return self.count
+        self.count
     }
     
     func isEmpty() -> Bool {
@@ -24,68 +24,133 @@ class BinaryTree<T> {
         
     }
     
-    func preorder() {
-        preorder(root)
+    func createNode(value: T, parent: Node<T>? = nil) -> Node<T> {
+        Node(value: value, parent: parent)
     }
-    func inorder() {
-        inorder(root)
-    }
-    func postorder() {
-        postorder(root)
-    }
-    func levelorder() {
-        levelorder(root)
-    }
+}
+
+
+// MARK: - 遍历
+/*
+              7
+          /        \
+         4         11
+        / \       /  \
+        2   6    9    13
+       / \  /   / \   / \
+      1   3 5  8  10 12 14
+                          \
+                           15
+ */
+
+extension BinaryTree {
     
-    /*
-            7
-          /   \
-         4     9
-        / \   /  \
-       2   5  8  11
-      / \   \      \
-     1   3  6      12
-     */
-    
-    // 前序便利 7 → 4 → 2 → 3 → 5 → 9 → 8 → 11 → 12
+    // 前 [7, 4, 2, 1, 3, 6, 5, 11, 9, 8, 10, 13, 12, 14, 15]
     func preorder(_ node: Node<T>?) {
         guard let node = node else { return }
         print(node.value)
         preorder(node.left)
         preorder(node.right)
     }
-    
-    // 中序便利 2 3 4 5 7 8 9 11 12
-    // 2 3 5
-    /*
-     inorder(7)
-     inorder(7.left) = inorder(4)
-     inorder(4.left) = inorder(2)
-     print(2)
-     inorder(2.right)
-     print(3)
-     print(4)
-     print(5)
-     print(7)
-     print(8)
-     print(9)
-     print(11)
-     print(12)
-     */
     func inorder(_ node: Node<T>?) {
         guard let node = node else { return }
         inorder(node.left)
         print(node.value)
         inorder(node.right)
     }
-    
-    // 后序遍历
+    // 后序 [1, 3, 2, 5, 6, 4, 8, 10, 9, 12, 15, 14, 13, 11, 7]
     func postorder(_ node: Node<T>?) {
         guard let node = node else { return }
         postorder(node.left)
         postorder(node.right)
         print(node.value)
     }
+    
+    
+    func preorderTraversal(_ node: Node<T>?) -> [T] {
+        var result: [T] = []
+        guard let root = root else { return result }
+        
+        var stack: [(node: Node<T>, visited: Bool)] = []
+        stack.append((root, false))
+        
+        while !stack.isEmpty {
+            let (node, visited) = stack.removeLast()
+            
+            if !visited {
+                // 未访问过：先访问，再按右→左顺序入栈（标记未访问）
+                if let right = node.right {
+                    stack.append((right, false))
+                }
+                if let left = node.left {
+                    stack.append((left, false))
+                }
+                stack.append((node, true))
+            } else {
+                result.append(node.value)
+            }
+        }
+        return result
+    }
+    func inorderTraversal(_ node: Node<T>?) -> [T] {
+        var result: [T] = []
+        guard let root = root else { return result }
+        
+        var stack: [(node: Node<T>, visited: Bool)] = []
+        stack.append((root, false))
+        
+        while !stack.isEmpty {
+            let (node, visited) = stack.removeLast()
+            
+            if !visited {
+                // 未访问过：先入栈右子树，再入栈当前节点（标记已访问），最后入栈左子树
+                if let right = node.right {
+                    stack.append((right, false))
+                }
+                stack.append((node, true))  // 标记为已访问，等待左子树处理完
+                if let left = node.left {
+                    stack.append((left, false))
+                }
+            } else {
+                // 已访问过：左子树已处理完，访问当前节点
+                result.append(node.value)  // 中序：左子树处理后访问
+            }
+        }
+        return result
+    }
+    func postorderTraversal(_ node: Node<T>?) -> [T] {
+        var result: [T] = []
+        guard let root = root else { return result }
+        
+        var stack: [(node: Node<T>, visited: Bool)] = []
+        stack.append((root, false))
+        
+        while !stack.isEmpty {
+            let (node, visited) = stack.removeLast()
+            
+            if !visited {
+                // 未访问过：先入栈当前节点（标记已访问），再入栈右子树，最后入栈左子树
+                stack.append((node, true))  // 标记为已访问，等待右子树处理完
+                if let right = node.right {
+                    stack.append((right, false))
+                }
+                if let left = node.left {
+                    stack.append((left, false))
+                }
+            } else {
+                // 已访问过：右子树已处理完，访问当前节点
+                result.append(node.value)  // 后序：右子树处理后访问
+            }
+        }
+        return result
+    }
+    
+    
+    
+    
+    
+    
+    
     
     // 层序遍历
     func levelorder(_ node: Node<T>?) {
@@ -136,6 +201,59 @@ class BinaryTree<T> {
         return height
     }
     
+    // MARK: - 前驱节点 中序遍历的前一个节点
+    /*
+     1.node.left != null 在 node.left.right.right....
+     2.node.left == nil && node.parent != nil 在node.parent.parent.....
+       一直到node.parent 在 右子树中
+     */
+    func predecessor(_ n: Node<T>?) -> Node<T>? {
+        var node: Node<T>? = n
+        
+        if node == nil {
+            return nil
+        }
+        
+        if let left = node?.left {
+            var r:Node<T>? = left
+            while r?.right != nil {
+                r = r?.right
+            }
+            return r
+        }
+        
+        while node?.parent != nil && node === node?.parent?.left {
+            node = node?.parent
+        }
+        return node?.parent
+    }
+    
+    // MARK: - 后继节点 中序遍历时的后一个节点
+    func successor(_ n: Node<T>?) -> Node<T>? {
+        var node: Node<T>? = n
+        
+        if node == nil {
+            return nil
+        }
+        
+        if let left = node?.right {
+            var r:Node<T>? = left
+            while r?.left != nil {
+                r = r?.left
+            }
+            return r
+        }
+        
+        while node?.parent != nil && node === node?.parent?.right {
+            node = node?.parent
+        }
+        return node?.parent
+    }
+}
+
+
+// MARK: - 翻转/判断是否是完全二叉树
+extension BinaryTree {
     // 翻转二叉树
     func flipTree(_ node: Node<T>?) {
         guard let node = node else { return }
@@ -178,4 +296,3 @@ class BinaryTree<T> {
         return true
     }
 }
-

@@ -33,15 +33,14 @@ class BinarySearchTree<T> : BinaryTree<T> {
             else { return 0 }
         })
     }
-
-
     
     // 二叉搜索树插入操作中，新节点必然是插入到叶子结点的子节点位置，也就是最终成为叶子结点（或者说插入的位置是基于叶子结点的空分支）。
-    func add(_ element:T) {
+    @discardableResult
+    func add(_ element:T) -> Node<T>? {
         guard let root = root else {
-            root = Node(value: element)
+            root = createNode(value: element)
             self.count += 1
-            return
+            return root
         }
         var node: Node<T>?
         var parent: Node<T>?
@@ -60,40 +59,38 @@ class BinarySearchTree<T> : BinaryTree<T> {
             }
             else {
                 node?.value = element
-                return
+                return node
             }
         }
 
-        let newNode = Node(value: element, parent: parent)
+        let newNode = createNode(value: element, parent: parent)
         self.count += 1
         if result == -1 {
             parent?.left = newNode
         } else {
             parent?.right = newNode
         }
+        return newNode
     }
     
-    func contains(_ element:T) -> Node<T>? {
-        var node: Node<T>?
-        node = root
-        while let tmp = node {
-            let result = self.compare(element, tmp.value)
-            if result < 0 {
-                node = node?.left
-            }
-            else if result > 0 {
-                node = node?.right
-            }
-            else {
-                return node
-            }
-        }
-        return nil
-    }
-    
-    func remove(_ element:T) {
-        guard let node = contains(element) else { return }
+    @discardableResult
+    func remove(_ element:T) -> Node<T>? {
+        guard let n = contains(element) else { return nil }
+        
         self.count -= 1
+
+        var node: Node<T> = n
+        //： 删除的这个节点有两个子节点
+        //： 1.找到前驱节点/后继节点 替换 原来节点的值
+        //： 2.删除 之前的节点
+        if node.left != nil && node.right != nil {
+            guard let p = predecessor(node) else { return nil }
+            let nodeValue = node.value
+            node.value = p.value
+            p.value = nodeValue
+            node = p
+        }
+        
         // 分情况 1.根结点 2.分支节点 3.叶子结点
         if node.left == nil && node.right == nil {
             if let value = node.parent?.left?.value, compare(value, element) == 0 {
@@ -114,12 +111,26 @@ class BinarySearchTree<T> : BinaryTree<T> {
             } else {
                 node.parent?.right = node.left
             }
-        } else {
-            /// 删除的这个节点有两个子节点
-            if let value = node.parent?.left?.value, compare(value, element) == 0 {
-            } else {
+        }
+        return node
+    }
+    
+    func contains(_ element:T) -> Node<T>? {
+        var node: Node<T>?
+        node = root
+        while let tmp = node {
+            let result = self.compare(element, tmp.value)
+            if result < 0 {
+                node = node?.left
+            }
+            else if result > 0 {
+                node = node?.right
+            }
+            else {
+                return node
             }
         }
+        return nil
     }
 }
 
