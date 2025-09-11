@@ -16,13 +16,44 @@
  
  递归  转换为 迭代的时候 我们就需要 转换为栈
  
+ 数据结构 - https://www.cs.usfca.edu/~galles/visualization/Algorithms.html
  */
-
+/*
+ 核心诉求    优先选择的数据结构    典型场景举例
+ 随机查询频繁    数组、哈希表    数据库表的行查询、缓存查询
+ 插入 / 删除频繁    链表、哈希表    消息队列、LRU 缓存
+ 有序存储 + 范围查询    B + 树、红黑树、跳表    数据库索引、有序集合（如 Redis 的 ZSet）
+ 字符串前缀匹配    Trie 树    自动补全、拼写检查
+ 复杂关联关系（多对多）    图    社交网络、路径规划
+ 快速获取最大 / 最小值    堆（大顶堆 / 小顶堆）    Top K 问题、优先队列
+ */
 import Foundation
 
 
+/*
+             55
+        /         \
+       38         80
+      /  \        /  \
+     25   46     76    88
+    / \    \     /
+   17  33  50   72
+ 
+ */
 
-// MARK: - 搜索二叉树
+let arr = Array(1...7)
+let rbt = RBTree<Int>()
+for item in arr {
+    rbt.add(item)
+    rbt.printTree()
+    print("--------------\n\n")
+}
+print("------8888888888888--------\n\n")
+rbt.add(8)
+rbt.printTree()
+
+
+// MARK: - avl
 /*
                7
             /     \
@@ -31,18 +62,28 @@ import Foundation
          2   6   9    13
         / \
        1   3
-*/
 
-let arr:[Int] = [7,4,11,2,6,9,13,1,3]
-let avl = AVL<Int>.initAVL(arr)
-//avl.add(0)
-//avl.add(-1)
-//avl.add(-2)
-
-print("中序便利： \(avl.inorder(avl.root)) 跟：\(avl.root?.value)")
 
 
 
+let arr:[Int] = [7,4,11,2,6,9,13,1,3]
+let avl = AVLTree<Int>.initAVLTree(arr)
+avl.printTree()
+
+avl.add(0)
+avl.add(-1)
+avl.add(-2)
+
+print("中序便利： \(avl.inorderTraversal(avl.root)) 跟：\(avl.root?.value) 跟的高度：\((avl.root as? AVLNode)?.height)")
+avl.remove(-2)
+avl.remove(-1)
+avl.remove(0)
+print("中序便利： \(avl.inorderTraversal(avl.root)) 跟：\(avl.root?.value) 跟的高度：\((avl.root as? AVLNode)?.height)")
+
+avl.printTree()
+ */
+
+// MARK: - 搜索二叉树
 
 /*
             7

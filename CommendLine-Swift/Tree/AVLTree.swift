@@ -1,5 +1,5 @@
 //
-//  AVL.swift
+//  AVLTree.swift
 //  CommendLine-Swift
 //
 //  Created by jingwei on 2025/9/9.
@@ -23,52 +23,17 @@ import Foundation
     RL - 父节点右旋 祖父节点左旋
  */
 
-/*
- 2.红黑树
+class AVLTree<T>: BalanceBST<T> {
 
- */
-
-fileprivate class AVLNode<T>: Node<T> {
-    var height: Int = 1
-    
-    func isBalance() -> Bool {
-        let left = (self.left as? AVLNode)?.height ?? 0
-        let right = (self.right as? AVLNode)?.height ?? 0
-        return abs(left - right) <= 1
-    }
-    
-    func updateHeight() {
-        let left = (self.left as? AVLNode)?.height ?? 0
-        let right = (self.right as? AVLNode)?.height ?? 0
-        height = max(left, right) + 1
-        debugPrint("updateHeight: \(height)  value: \(value)")
-    }
-    
-    func tallerChild() -> AVLNode<T>? {
-        let left = (self.left as? AVLNode)
-        let right = (self.right as? AVLNode)
-        let leftHeight = left?.height ?? 0
-        let rightHeight = right?.height ?? 0
-        if leftHeight > rightHeight { return left }
-        if leftHeight < rightHeight { return right }
-        if let p = self.parent {
-            return (self === p.left) ? left : right
-        }
-        return left
-    }
-}
-
-class AVL<T>: BinarySearchTree<T> {
-
-    static func initAVL<E:Comparable>(_ arr: [E]) -> AVL<E> {
-        let tree = AVL<E>()
+    static func initAVLTree<E:Comparable>(_ arr: [E]) -> AVLTree<E> {
+        let tree = AVLTree<E>()
         for item in arr {
             tree.add(item)
         }
         return tree
     }
     
-    override func createNode(value: T, parent: Node<T>? = nil) -> Node<T> {
+    override func createNode(value: T, parent: BinaryTreeNode<T>? = nil) -> BinaryTreeNode<T> {
         AVLNode(value: value, parent: parent)
     }
     
@@ -86,9 +51,9 @@ class AVL<T>: BinarySearchTree<T> {
      插入操作：最多 2 次旋转
      */
     @discardableResult
-    override func add(_ element: T) -> Node<T>? {
+    override func add(_ element: T) -> BinaryTreeNode<T> {
         let node = super.add(element)
-        var currentNode = node?.parent
+        var currentNode = node.parent
         while currentNode != nil {
             if (currentNode as! AVLNode).isBalance()  {
                 (currentNode as! AVLNode).updateHeight()
@@ -102,7 +67,8 @@ class AVL<T>: BinarySearchTree<T> {
     }
 
     // MARK: - 删除
-    override func remove(_ element: T) -> Node<T>? {
+    @discardableResult
+    override func remove(_ element: T) -> BinaryTreeNode<T>? {
         let node = super.remove(element)
         var currentNode = node?.parent
         while currentNode != nil {
@@ -124,7 +90,7 @@ class AVL<T>: BinarySearchTree<T> {
      parent 是 grand 高的那个节点
      node 是 parent 高的那个节点
      */
-    private func reBalance(_ g: AVLNode<T>?) {
+    func reBalance(_ g: AVLNode<T>?) {
         guard let g = g else { return }
         guard let p = g.tallerChild() else { return }
         guard let node = p.tallerChild() else { return }
@@ -147,70 +113,20 @@ class AVL<T>: BinarySearchTree<T> {
             leftSpin(g)
             print("RL 右旋转 左旋转")
         }
+
     }
     
-    /*
-     对某个节点进行右旋
-     g.left  = p.right
-     p.right = g
-     */
-    private func rightSpin(_ g: AVLNode<T>?) {
-        guard let g = g, let p = g.left as? AVLNode<T> else { return }
-        let pr = p.right
-        // 自旋转内部重连
-        p.right = g
-        g.left = pr
-        pr?.parent = g
-        // 把新根 p 接回祖先/根
-        replaceChild(of: g.parent, oldChild: g, with: p)
-        // 维护 parent
-        p.parent = g.parent
-        g.parent = p
+    override func afterRotate(of grand: BinaryTreeNode<T>, parent: BinaryTreeNode<T>?, with child: BinaryTreeNode<T>?) {
+        super.afterRotate(of: grand, parent: parent, with: child)
         // 更新高度：先 g 再 p
-        g.updateHeight()
-        p.updateHeight()
-    }
-    
-    /*
-     对某个节点进行左旋
-     g.right = p.left
-     p.left = g
-     */
-    private func leftSpin(_ g: AVLNode<T>?) {
-        guard let g = g, let p = g.right as? AVLNode<T> else { return }
-        let pl = p.left
-        // 自旋转内部重连
-        p.left = g
-        g.right = pl
-        pl?.parent = g
-        // 把新根 p 接回祖先/根
-        replaceChild(of: g.parent, oldChild: g, with: p)
-        // 维护 parent
-        p.parent = g.parent
-        g.parent = p
-        // 更新高度：先 g 再 p
-        g.updateHeight()
-        p.updateHeight()
+        updateHeight(grand)
+        updateHeight(parent)
     }
 
-    private func replaceChild(of parent: Node<T>?, oldChild: Node<T>?, with newChild: Node<T>?) {
-        if parent == nil {
-            self.root = newChild
-            newChild?.parent = nil
-            return
-        }
-        if parent?.left === oldChild {
-            parent?.left = newChild
-            newChild?.parent = parent
-        } else if parent?.right === oldChild {
-            parent?.right = newChild
-            newChild?.parent = parent
-        }
+    func updateHeight(_ node: BinaryTreeNode<T>?) {
+        guard let node = node as? AVLNode else { return }
+        node.updateHeight()
     }
-    
-
-    
-
 }
 
 

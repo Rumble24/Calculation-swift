@@ -9,9 +9,9 @@ import Foundation
 
 class BinaryTree<T> {
     
-    var root:Node<T>?
+    var root:BinaryTreeNode<T>?
     var count: Int = 0
-
+    
     func size() -> Int {
         self.count
     }
@@ -21,11 +21,46 @@ class BinaryTree<T> {
     }
     
     func clear() {
+        guard let root = root else { return }
+        var stack = [root]
+        while !stack.isEmpty {
+            let node = stack.removeLast() // 关键：移除栈顶元素
+            
+            if let left = node.left {
+                stack.append(left)
+            }
+            if let right = node.right {
+                stack.append(right)
+            }
+            
+            // 清空节点的子节点引用
+            node.left = nil
+            node.right = nil
+            node.parent = nil
+        }
         
+        // 重置根节点和计数
+        self.root = nil
+        self.count = 0
     }
     
-    func createNode(value: T, parent: Node<T>? = nil) -> Node<T> {
-        Node(value: value, parent: parent)
+    func clear1() {
+        clearRecursive(root)
+        self.root = nil
+        self.count = 0
+    }
+
+    private func clearRecursive(_ node: BinaryTreeNode<T>?) {
+        guard let node = node else { return }
+        clearRecursive(node.left)
+        clearRecursive(node.right)
+        node.left = nil
+        node.right = nil
+        node.parent = nil
+    }
+    
+    func createNode(value: T, parent: BinaryTreeNode<T>? = nil) -> BinaryTreeNode<T> {
+        BinaryTreeNode(value: value, parent: parent)
     }
 }
 
@@ -46,20 +81,20 @@ class BinaryTree<T> {
 extension BinaryTree {
     
     // 前 [7, 4, 2, 1, 3, 6, 5, 11, 9, 8, 10, 13, 12, 14, 15]
-    func preorder(_ node: Node<T>?) {
+    func preorder(_ node: BinaryTreeNode<T>?) {
         guard let node = node else { return }
         print(node.value)
         preorder(node.left)
         preorder(node.right)
     }
-    func inorder(_ node: Node<T>?) {
+    func inorder(_ node: BinaryTreeNode<T>?) {
         guard let node = node else { return }
         inorder(node.left)
         print(node.value)
         inorder(node.right)
     }
     // 后序 [1, 3, 2, 5, 6, 4, 8, 10, 9, 12, 15, 14, 13, 11, 7]
-    func postorder(_ node: Node<T>?) {
+    func postorder(_ node: BinaryTreeNode<T>?) {
         guard let node = node else { return }
         postorder(node.left)
         postorder(node.right)
@@ -67,11 +102,11 @@ extension BinaryTree {
     }
     
     
-    func preorderTraversal(_ node: Node<T>?) -> [T] {
+    func preorderTraversal(_ node: BinaryTreeNode<T>?) -> [T] {
         var result: [T] = []
         guard let root = root else { return result }
         
-        var stack: [(node: Node<T>, visited: Bool)] = []
+        var stack: [(node: BinaryTreeNode<T>, visited: Bool)] = []
         stack.append((root, false))
         
         while !stack.isEmpty {
@@ -92,11 +127,11 @@ extension BinaryTree {
         }
         return result
     }
-    func inorderTraversal(_ node: Node<T>?) -> [T] {
+    func inorderTraversal(_ node: BinaryTreeNode<T>?) -> [T] {
         var result: [T] = []
         guard let root = root else { return result }
         
-        var stack: [(node: Node<T>, visited: Bool)] = []
+        var stack: [(node: BinaryTreeNode<T>, visited: Bool)] = []
         stack.append((root, false))
         
         while !stack.isEmpty {
@@ -118,11 +153,11 @@ extension BinaryTree {
         }
         return result
     }
-    func postorderTraversal(_ node: Node<T>?) -> [T] {
+    func postorderTraversal(_ node: BinaryTreeNode<T>?) -> [T] {
         var result: [T] = []
         guard let root = root else { return result }
         
-        var stack: [(node: Node<T>, visited: Bool)] = []
+        var stack: [(node: BinaryTreeNode<T>, visited: Bool)] = []
         stack.append((root, false))
         
         while !stack.isEmpty {
@@ -153,9 +188,9 @@ extension BinaryTree {
     
     
     // 层序遍历
-    func levelorder(_ node: Node<T>?) {
+    func levelorder(_ node: BinaryTreeNode<T>?) {
         guard let root = root else { return }
-        var queue:[Node<T>] = [root]
+        var queue:[BinaryTreeNode<T>] = [root]
         while queue.count != 0 {
             let node = queue.removeFirst()
             debugPrint(node.value)
@@ -169,15 +204,15 @@ extension BinaryTree {
     }
     
     // 高度
-    func height(_ node: Node<T>?) -> Int {
+    func height(_ node: BinaryTreeNode<T>?) -> Int {
         guard let node = node else { return 0 }
         return max(height(node.left), height(node.right)) + 1
     }
- 
+    
     // 层序遍历 获取高度
-    func levelHeight(_ node: Node<T>?) -> Int {
+    func levelHeight(_ node: BinaryTreeNode<T>?) -> Int {
         guard let node = node else { return 0 }
-        var queue:[Node<T>] = [node]
+        var queue:[BinaryTreeNode<T>] = [node]
         var height = 0
         var tier = 0
         var delete = 0
@@ -205,17 +240,17 @@ extension BinaryTree {
     /*
      1.node.left != null 在 node.left.right.right....
      2.node.left == nil && node.parent != nil 在node.parent.parent.....
-       一直到node.parent 在 右子树中
+     一直到node.parent 在 右子树中
      */
-    func predecessor(_ n: Node<T>?) -> Node<T>? {
-        var node: Node<T>? = n
+    func predecessor(_ n: BinaryTreeNode<T>?) -> BinaryTreeNode<T>? {
+        var node: BinaryTreeNode<T>? = n
         
         if node == nil {
             return nil
         }
         
         if let left = node?.left {
-            var r:Node<T>? = left
+            var r:BinaryTreeNode<T>? = left
             while r?.right != nil {
                 r = r?.right
             }
@@ -229,15 +264,15 @@ extension BinaryTree {
     }
     
     // MARK: - 后继节点 中序遍历时的后一个节点
-    func successor(_ n: Node<T>?) -> Node<T>? {
-        var node: Node<T>? = n
+    func successor(_ n: BinaryTreeNode<T>?) -> BinaryTreeNode<T>? {
+        var node: BinaryTreeNode<T>? = n
         
         if node == nil {
             return nil
         }
         
         if let left = node?.right {
-            var r:Node<T>? = left
+            var r:BinaryTreeNode<T>? = left
             while r?.left != nil {
                 r = r?.left
             }
@@ -251,11 +286,48 @@ extension BinaryTree {
     }
 }
 
+// MARK: - Pretty Print
+extension BinaryTree {
+    func printTree() {
+        guard let root = root else {
+            print("<empty>")
+            return
+        }
+        let h = height(root)
+        var currentLevel: [BinaryTreeNode<T>?] = [root]
+        var level = 1
+        while level <= h && currentLevel.contains(where: { $0 != nil }) {
+            let floor = h - level
+            let firstSpaces = Int(pow(2.0, Double(floor))) - 1
+            let betweenSpaces = Int(pow(2.0, Double(floor + 1))) - 1
+            var line = String(repeating: " ", count: max(0, firstSpaces))
+            var nextLevel: [BinaryTreeNode<T>?] = []
+            for i in 0..<currentLevel.count {
+                if let node = currentLevel[i] {
+                    line += "\(node.description)"
+                    nextLevel.append(node.left)
+                    nextLevel.append(node.right)
+                } else {
+                    line += " "
+                    nextLevel.append(nil)
+                    nextLevel.append(nil)
+                }
+                if i != currentLevel.count - 1 {
+                    line += String(repeating: " ", count: max(0, betweenSpaces))
+                }
+            }
+            print(line)
+            currentLevel = nextLevel
+            level += 1
+        }
+    }
+}
+
 
 // MARK: - 翻转/判断是否是完全二叉树
 extension BinaryTree {
     // 翻转二叉树
-    func flipTree(_ node: Node<T>?) {
+    func flipTree(_ node: BinaryTreeNode<T>?) {
         guard let node = node else { return }
         
         let temp = node.left
@@ -271,7 +343,7 @@ extension BinaryTree {
     // 相差最多是两层 最后一层 必须都在左面 - 如果一个节点是叶子结点那么 后面所有的节点都是叶子结点
     // left == nil right != nil  return false
     // 层序遍历
-    func isComplete(_ node: Node<T>?) -> Bool {
+    func isComplete(_ node: BinaryTreeNode<T>?) -> Bool {
         guard let node = node else { return true }
         var queue = [node]
         var leaf = false
