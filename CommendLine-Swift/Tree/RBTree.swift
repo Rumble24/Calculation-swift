@@ -85,18 +85,14 @@ class RBTree<T>: BalanceBST<T> {
     }
     
     
-    override func remove(_ element: T) -> BinaryTreeNode<T>? {
-        let node = super.remove(element)
+    override func afterRemove(_ node: BinaryTreeNode<T>) {
         
-        
-        return node
     }
+    
     
     override func createNode(value: T, parent: BinaryTreeNode<T>? = nil) -> BinaryTreeNode<T> {
         RBNode(value: value, parent: parent)
     }
-    
-    
 }
 
 

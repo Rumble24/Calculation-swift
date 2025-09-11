@@ -40,17 +40,13 @@ import Foundation
    17  33  50   72
  
  */
-
-let arr = Array(1...7)
-let rbt = RBTree<Int>()
-for item in arr {
-    rbt.add(item)
-    rbt.printTree()
-    print("--------------\n\n")
-}
-print("------8888888888888--------\n\n")
-rbt.add(8)
-rbt.printTree()
+//
+//let arr = Array(1...20)
+//let rbt = RBTree<Int>()
+//for item in arr {
+//    rbt.add(item)
+//}
+//rbt.printTree()
 
 
 // MARK: - avl
@@ -84,7 +80,12 @@ avl.printTree()
  */
 
 // MARK: - 搜索二叉树
-
+let arr:[Int] = [7,4,11]
+let node = BinarySearchTree<Int>.initBinarySearchTree(arr)
+node.printTree()
+node.remove(7)
+node.remove(4)
+node.remove(11)
 /*
             7
          /     \

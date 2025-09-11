@@ -50,9 +50,7 @@ class AVLTree<T>: BalanceBST<T> {
      
      插入操作：最多 2 次旋转
      */
-    @discardableResult
-    override func add(_ element: T) -> BinaryTreeNode<T> {
-        let node = super.add(element)
+    override func afterAdd(_ node: BinaryTreeNode<T>) {
         var currentNode = node.parent
         while currentNode != nil {
             if (currentNode as! AVLNode).isBalance()  {
@@ -63,14 +61,11 @@ class AVLTree<T>: BalanceBST<T> {
             }
             currentNode = currentNode?.parent
         }
-        return node
     }
 
     // MARK: - 删除
-    @discardableResult
-    override func remove(_ element: T) -> BinaryTreeNode<T>? {
-        let node = super.remove(element)
-        var currentNode = node?.parent
+    override func afterRemove(_ node: BinaryTreeNode<T>) {
+        var currentNode = node.parent
         while currentNode != nil {
             if (currentNode as! AVLNode).isBalance()  {
                 (currentNode as! AVLNode).updateHeight()
@@ -79,7 +74,6 @@ class AVLTree<T>: BalanceBST<T> {
             }
             currentNode = currentNode?.parent
         }
-        return node
     }
     
     /*

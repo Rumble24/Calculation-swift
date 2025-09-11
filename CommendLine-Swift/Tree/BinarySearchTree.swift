@@ -79,6 +79,12 @@ class BinarySearchTree<T> : BinaryTree<T> {
         
     }
     
+    
+    // MARK: - 删除永远删除的是叶子结点
+    /*
+     4
+      11
+     */
     @discardableResult
     func remove(_ element:T) -> BinaryTreeNode<T>? {
         guard let n = contains(element) else { return nil }
@@ -89,6 +95,7 @@ class BinarySearchTree<T> : BinaryTree<T> {
         //： 删除的这个节点有两个子节点
         //： 1.找到前驱节点/后继节点 替换 原来节点的值
         //： 2.删除 之前的节点
+        // 度为 2
         if node.left != nil && node.right != nil {
             guard let p = predecessor(node) else { return nil }
             let nodeValue = node.value
@@ -97,29 +104,41 @@ class BinarySearchTree<T> : BinaryTree<T> {
             node = p
         }
         
-        // 分情况 1.根结点 2.分支节点 3.叶子结点
-        if node.left == nil && node.right == nil {
-            if let value = node.parent?.left?.value, compare(value, element) == 0 {
+        // 统一处理：node 的度 ≤ 1
+        let replacement = node.left ?? node.right
+        if let replacement = replacement {
+            // 度为 1：用子节点替换自己
+            if node.isLeftChild() {
+                node.parent?.left = replacement
+            } else if node.isRightChild() {
+                node.parent?.right = replacement
+            } else {
+                // node 是根结点
+                root = replacement
+            }
+            replacement.parent = node.parent
+        } else {
+            // 度为 0：叶子结点，直接删除
+            if node.isLeftChild() {
                 node.parent?.left = nil
-            } else {
+            } else if node.isRightChild() {
                 node.parent?.right = nil
+            } else {
+                // node 是根结点
+                root = nil
             }
         }
-        else if node.left == nil {
-            if let value = node.parent?.left?.value, compare(value, element) == 0 {
-                node.parent?.left = node.right
-            } else {
-                node.parent?.right = node.right
-            }
-        } else if node.right == nil {
-            if let value = node.parent?.left?.value, compare(value, element) == 0 {
-                node.parent?.left = node.left
-            } else {
-                node.parent?.right = node.left
-            }
-        }
+        
+        print("删除节点： \(node.value)  \(inorderTraversal(node)) size:\(size()) ")
+
+        afterRemove(node)
         return node
     }
+    
+    func afterRemove(_ node: BinaryTreeNode<T>) {
+        
+    }
+    
     
     func contains(_ element:T) -> BinaryTreeNode<T>? {
         var node: BinaryTreeNode<T>?
@@ -140,6 +159,64 @@ class BinarySearchTree<T> : BinaryTree<T> {
     }
 }
 
+extension BinarySearchTree {
+    func remove0(_ element:T) -> BinaryTreeNode<T>? {
+        guard let n = contains(element) else { return nil }
+        
+        self.count -= 1
+
+        var node: BinaryTreeNode<T> = n
+        //： 删除的这个节点有两个子节点
+        //： 1.找到前驱节点/后继节点 替换 原来节点的值
+        //： 2.删除 之前的节点
+        // 度为 2
+        if node.left != nil && node.right != nil {
+            guard let p = predecessor(node) else { return nil }
+            let nodeValue = node.value
+            node.value = p.value
+            p.value = nodeValue
+            node = p
+        }
+        
+        // 分情况 1.根结点 2.分支节点 3.叶子结点
+        // 度为0
+        if node.left == nil && node.right == nil {
+            if node.isLeftChild() {
+                node.parent?.left = nil
+            } else if node.isRightChild() {
+                node.parent?.right = nil
+            } else {
+                node.parent = nil
+                root = nil
+            }
+        }
+        // 度为1
+        else if node.left == nil {
+            if node.isLeftChild() {
+                node.parent?.left = node.right
+            } else if node.isRightChild() {
+                node.parent?.right = node.right
+            } else {
+                node.right?.parent = nil
+                root = node.right
+            }
+        }
+        // 度为1
+        else if node.right == nil {
+            if node.isLeftChild() {
+                node.parent?.left = node.left
+            } else if node.isRightChild() {
+                node.parent?.right = node.left
+            } else {
+                node.left?.parent = nil
+                root = node.left
+            }
+        }
+        afterRemove(node)
+        return node
+    }
+    
+}
 
 extension BinarySearchTree {
     // 二叉搜索树（BST）的最近公共祖先（LCA）求解思路与代码
