@@ -43,7 +43,7 @@ class RBTree<T>: BalanceBST<T> {
         }
         let grand = parent.parent
         let uncle = parent.sibling()
-        // 4种上溢出的情况需要 叔父节点是红色必然上溢出
+        // uncle 是 RED - 4种上溢出的情况需要
         // 改变颜色 然后继续修改转换
         if isRed(uncle) {
             setColor(uncle, color: .black)
@@ -55,7 +55,7 @@ class RBTree<T>: BalanceBST<T> {
             return
         }
         
-        // 4种需要旋转的颜色
+        // uncle 不是 RED 4种需要旋转的颜色
         if node === grand?.left?.left {
             // LL 情况
             setColor(parent, color: .black)
@@ -84,8 +84,31 @@ class RBTree<T>: BalanceBST<T> {
         }
     }
     
-    
-    override func afterRemove(_ node: BinaryTreeNode<T>) {
+    // 只会删除最后的节点
+    override func afterRemove(_ node: BinaryTreeNode<T>, _ replacement: BinaryTreeNode<T>?) {
+        // 1.删除的是红色 不会破坏 返回
+        if isRed(node) {
+            return
+        }
+        
+        // MARK: - 删除黑色节点的情况 最难的情况
+        // ------ 1.度为1 叶子结点为红色[只能为]
+        if isRed(replacement) {
+            setBlack(replacement)
+            return
+        }
+        // ------ 2.度为0
+        // 2.1 - sibling为BLACK
+        // 2.1.1 - ◼ 如果 sibling 至少有 1 个 RED 子节点 - 进行旋转操作 - 借兄弟 [看最近一个RED节点在父节点哪个位置]
+        
+        // 2.1.2 - ◼ 如果 sibling 没有 1 个 RED 子节点 - 染色 - 必然下溢 - 借父节点
+        //           如果 parent 是 RED 将 sibling 染成 RED parent 染成 BLACK 即可修复红黑树性质
+        //           如果 parent 是 BLACK - 会导致 parent 也下溢 - 这时只需要把 parent 当做被删除的节点处理即可
+
+
+        // 2.2 如果 sibling 是 RED
+        //  sibling 染成 BLACK，parent 染成 RED，进行旋转
+        //  于是又回到 sibling 是 BLACK 的情况
         
     }
     
@@ -110,10 +133,12 @@ extension RBTree {
         return node.color
     }
     
+    @discardableResult
     func setRed(_ node: BinaryTreeNode<T>?) -> RBNode<T>? {
         return setColor(node, color: .red)
     }
     
+    @discardableResult
     func setBlack(_ node: BinaryTreeNode<T>?) -> RBNode<T>? {
         return setColor(node, color: .black)
     }

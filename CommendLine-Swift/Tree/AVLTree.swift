@@ -64,7 +64,7 @@ class AVLTree<T>: BalanceBST<T> {
     }
 
     // MARK: - 删除
-    override func afterRemove(_ node: BinaryTreeNode<T>) {
+    override func afterRemove(_ node: BinaryTreeNode<T>, _ replacement: BinaryTreeNode<T>?) {
         var currentNode = node.parent
         while currentNode != nil {
             if (currentNode as! AVLNode).isBalance()  {
@@ -84,27 +84,27 @@ class AVLTree<T>: BalanceBST<T> {
      parent 是 grand 高的那个节点
      node 是 parent 高的那个节点
      */
-    func reBalance(_ g: AVLNode<T>?) {
-        guard let g = g else { return }
-        guard let p = g.tallerChild() else { return }
-        guard let node = p.tallerChild() else { return }
+    func reBalance(_ grand: AVLNode<T>?) {
+        guard let grand = grand else { return }
+        guard let parent = grand.tallerChild() else { return }
+        guard let node = parent.tallerChild() else { return }
 
-        if node === g.left?.left { // 右旋转
-            rightSpin(g)
+        if node === grand.left?.left { // 右旋转
+            rightSpin(grand)
             print("LL 右旋转")
         }
-        else if node === g.right?.right {
-            leftSpin(g)
+        else if node === grand.right?.right {
+            leftSpin(grand)
             print("RR 左旋转")
         }
-        else if node === g.left?.right {
-            leftSpin(p)
-            rightSpin(g)
+        else if node === grand.left?.right {
+            leftSpin(parent)
+            rightSpin(grand)
             print("LR 左旋转 右旋转")
         }
-        else if node === g.right?.left {
-            rightSpin(p)
-            leftSpin(g)
+        else if node === grand.right?.left {
+            rightSpin(parent)
+            leftSpin(grand)
             print("RL 右旋转 左旋转")
         }
 

@@ -117,6 +117,7 @@ class BinarySearchTree<T> : BinaryTree<T> {
                 root = replacement
             }
             replacement.parent = node.parent
+            afterRemove(node, replacement)
         } else {
             // 度为 0：叶子结点，直接删除
             if node.isLeftChild() {
@@ -127,15 +128,15 @@ class BinarySearchTree<T> : BinaryTree<T> {
                 // node 是根结点
                 root = nil
             }
+            afterRemove(node, nil)
         }
         
         print("删除节点： \(node.value)  \(inorderTraversal(node)) size:\(size()) ")
 
-        afterRemove(node)
         return node
     }
     
-    func afterRemove(_ node: BinaryTreeNode<T>) {
+    func afterRemove(_ node: BinaryTreeNode<T>, _ replacement: BinaryTreeNode<T>?) {
         
     }
     
@@ -160,6 +161,7 @@ class BinarySearchTree<T> : BinaryTree<T> {
 }
 
 extension BinarySearchTree {
+    // 没有优化前的代码
     func remove0(_ element:T) -> BinaryTreeNode<T>? {
         guard let n = contains(element) else { return nil }
         
