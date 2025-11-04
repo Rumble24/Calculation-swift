@@ -214,7 +214,7 @@ extension BinarySearchTree {
                 root = node.left
             }
         }
-        afterRemove(node)
+        afterRemove(node, nil)
         return node
     }
     

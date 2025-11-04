@@ -41,6 +41,10 @@ public class TreeNode {
  ◼ 对称二叉树：https://leetcode-cn.com/problems/symmetric-tree/
  */
 extension Solution {
+    // 数组转完全二叉树
+//    static func arrayToTree(_ array: [Int]) -> TreeNode? {
+//        
+//    }
 }
 
 
