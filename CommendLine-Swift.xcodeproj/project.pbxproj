@@ -275,13 +275,13 @@
 			path = Heap;
 			sourceTree = "<group>";
 		};
-		C0EE74FF2EB0C2BB00778ADD /* Trie */ = {
+		C0EE74FF2EB0C2BB00778ADD /* Trie-字典树 */ = {
 			isa = PBXGroup;
 			children = (
 				C0EE75002EB0C2CF00778ADD /* Trie.swift */,
 				C0EE75022EB0CA0000778ADD /* WordSearch.swift */,
 			);
-			path = Trie;
+			path = "Trie-字典树";
 			sourceTree = "<group>";
 		};
 		C0EE75182EB1C44F00778ADD /* Sort */ = {
@@ -333,7 +333,7 @@
 				C02F50412E6A7C5A002B52D7 /* Tree */,
 				C02F50A82E827789002B52D7 /* Map */,
 				C0EE74F22EAF4E9200778ADD /* Heap */,
-				C0EE74FF2EB0C2BB00778ADD /* Trie */,
+				C0EE74FF2EB0C2BB00778ADD /* Trie-字典树 */,
 				C07B03622EB4549100E60D4C /* UnionFind */,
 				C07B037A2EBAF08900E60D4C /* Graph */,
 				C0EE75182EB1C44F00778ADD /* Sort */,
