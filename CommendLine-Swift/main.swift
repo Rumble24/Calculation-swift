@@ -29,7 +29,8 @@
  */
 import Foundation
 
-
+// MARK: - 堆
+//testBinaryHeap()
 
 // MARK: - 栈
 //debugPrint("有效括号： \(Stack.isValid(s: "{{{}}}"))")
@@ -48,4 +49,7 @@ import Foundation
 //testWordSearch()
 
 // MARK: - 并查集
-UnionFindTest.test()
+//UnionFindTest.test()
+
+// MARK: - 图
+GraphTest.test()

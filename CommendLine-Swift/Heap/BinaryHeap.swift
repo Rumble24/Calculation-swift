@@ -60,6 +60,36 @@ class BinaryHeap<E>: AbstractHeap<E> {
         }
         return elements[0]
     }
+    
+    static func create(arr:[E], compare: @escaping (E, E) -> Int) -> BinaryHeap<E> {
+        let heap = BinaryHeap(compare: compare)
+        heap.elements = arr
+        
+        let startIndex = (heap.elements.count >> 1) - 1
+        for index in stride(from: startIndex, through: 0, by: -1) {
+            heap.siftDown(index: index)
+        }
+        return heap
+    }
+    
+    static func create(set: Set<E>, compare: @escaping (E, E) -> Int) -> BinaryHeap<E> where E: Hashable {
+        let heap = BinaryHeap(compare: compare)
+        set.forEach { value in
+            heap.elements.append(value)
+        }
+        
+        let startIndex = (heap.elements.count >> 1) - 1
+        for index in stride(from: startIndex, through: 0, by: -1) {
+            heap.siftDown(index: index)
+        }
+        return heap
+    }
+    
+    // 自下而上的下滤建堆
+        private func buildHeap() {
+            // Swift 中的位运算：size >> 1 等价于 size / 2
+
+        }
 }
 
 
