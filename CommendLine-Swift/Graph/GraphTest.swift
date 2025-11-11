@@ -12,6 +12,8 @@ class GraphTest {
     static func test() {
 //        graphtest()
 //        primTest()
+//        dijkstraTest()
+        bellmanTest()
     }
     
 
@@ -51,10 +53,27 @@ class GraphTest {
         }
     }
     
+    static func dijkstraTest() {
+        debugPrint("最短路径 dijkstra 算法----- -----")
+        let graph = undirectedGraph(GraphData.SP)
+        let dijkstra = graph.dijkstra(begin: "A")
+        for item in dijkstra {
+            print("A到\(item.key) \(item.value)")
+        }
+    }
+    
+    static func bellmanTest() {
+        debugPrint("最短路径 bellman 算法----- -----")
+        let graph = directedGraph(GraphData.BF_SP)
+        let bellman = graph.bellman(begin: "A")
+        for item in bellman {
+            print("A到\(item.key) \(item.value)")
+        }
+    }
 
     // 有向图
-    static func directedGraph(_ data: [[Any]]) -> Graph<AnyHashable, Double> {
-        let graph = Graph<AnyHashable, Double>()
+    static func directedGraph(_ data: [[Any]]) -> Graph<AnyHashable, Double, DefaultWeightManager<Double>> {
+        let graph = Graph<AnyHashable, Double, DefaultWeightManager>(weightManager: DefaultWeightManager<Double>())
         for item in data {
             if item.count == 1 {
                 if let vertex = item[0] as? AnyHashable {
@@ -70,8 +89,8 @@ class GraphTest {
             if item.count == 3 {
                 if let from = item[0] as? AnyHashable,
                    let to = item[1] as? AnyHashable,
-                   let weight = item[2] as? Double {
-                    graph.addEdge(from: from, to: to, weight: weight)
+                   let weight = item[2] as? NSNumber {
+                    graph.addEdge(from: from, to: to, weight: weight.doubleValue)
                 }
             }
         }
@@ -79,8 +98,8 @@ class GraphTest {
     }
     
     // 无向图
-    static func undirectedGraph(_ data: [[Any]]) -> Graph<AnyHashable, Double> {
-        let graph = Graph<AnyHashable, Double>()
+    static func undirectedGraph(_ data: [[Any]]) -> Graph<AnyHashable, Double, DefaultWeightManager<Double>> {
+        let graph = Graph<AnyHashable, Double, DefaultWeightManager>(weightManager: DefaultWeightManager<Double>())
         for item in data {
             if item.count == 1 {
                 if let vertex = item[0] as? AnyHashable {

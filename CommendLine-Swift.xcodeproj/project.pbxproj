@@ -39,6 +39,10 @@
 		C07B038F2EBC9ECE00E60D4C /* GenericUnionFind.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07B038E2EBC9ECE00E60D4C /* GenericUnionFind.swift */; };
 		C0B57DAF2E5424B90054AD2C /* Linked.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B57DAA2E5424B90054AD2C /* Linked.swift */; };
 		C0B57DB02E5424B90054AD2C /* SortLeetCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B57DA92E5424B90054AD2C /* SortLeetCode.swift */; };
+		C0CFB6E92EC2CF34003415C5 /* Recursion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFB6E82EC2CF34003415C5 /* Recursion.swift */; };
+		C0CFB6EB2EC2CFF1003415C5 /* BackTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFB6EA2EC2CFF1003415C5 /* BackTracking.swift */; };
+		C0CFB6EE2EC2DFB6003415C5 /* HomeworkProtocal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFB6ED2EC2DFB6003415C5 /* HomeworkProtocal.swift */; };
+		C0CFB6F02EC30DAD003415C5 /* Homework.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFB6EF2EC30DAD003415C5 /* Homework.swift */; };
 		C0EE74F42EAF5CB300778ADD /* TopK.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EE74F32EAF5CB300778ADD /* TopK.swift */; };
 		C0EE74F62EAF606F00778ADD /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EE74F52EAF606F00778ADD /* Queue.swift */; };
 		C0EE74F82EB093ED00778ADD /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EE74F72EB093ED00778ADD /* Heap.swift */; };
@@ -139,6 +143,10 @@
 		C0B57DAA2E5424B90054AD2C /* Linked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Linked.swift; sourceTree = "<group>"; };
 		C0B57DAC2E5424B90054AD2C /* BinaryTree.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BinaryTree.md; sourceTree = "<group>"; };
 		C0B57DAD2E5424B90054AD2C /* Other.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Other.md; sourceTree = "<group>"; };
+		C0CFB6E82EC2CF34003415C5 /* Recursion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recursion.swift; sourceTree = "<group>"; };
+		C0CFB6EA2EC2CFF1003415C5 /* BackTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackTracking.swift; sourceTree = "<group>"; };
+		C0CFB6ED2EC2DFB6003415C5 /* HomeworkProtocal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkProtocal.swift; sourceTree = "<group>"; };
+		C0CFB6EF2EC30DAD003415C5 /* Homework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Homework.swift; sourceTree = "<group>"; };
 		C0EE74F12EAF0C0400778ADD /* BinaryHeap.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BinaryHeap.md; sourceTree = "<group>"; };
 		C0EE74F32EAF5CB300778ADD /* TopK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopK.swift; sourceTree = "<group>"; };
 		C0EE74F52EAF606F00778ADD /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
@@ -257,12 +265,30 @@
 		C07B037A2EBAF08900E60D4C /* Graph */ = {
 			isa = PBXGroup;
 			children = (
+				C07B03812EBB534900E60D4C /* GraphData.swift */,
 				C07B037F2EBB51D000E60D4C /* GraphTest.swift */,
 				C07B037B2EBAF0A700E60D4C /* GraphProtocol.swift */,
 				C07B037D2EBB43C500E60D4C /* Graph.swift */,
-				C07B03812EBB534900E60D4C /* GraphData.swift */,
 			);
 			path = Graph;
+			sourceTree = "<group>";
+		};
+		C0CFB6E72EC2CE8D003415C5 /* Recursion */ = {
+			isa = PBXGroup;
+			children = (
+				C0CFB6E82EC2CF34003415C5 /* Recursion.swift */,
+				C0CFB6EA2EC2CFF1003415C5 /* BackTracking.swift */,
+			);
+			path = Recursion;
+			sourceTree = "<group>";
+		};
+		C0CFB6EC2EC2DF99003415C5 /* Homework */ = {
+			isa = PBXGroup;
+			children = (
+				C0CFB6ED2EC2DFB6003415C5 /* HomeworkProtocal.swift */,
+				C0CFB6EF2EC30DAD003415C5 /* Homework.swift */,
+			);
+			path = Homework;
 			sourceTree = "<group>";
 		};
 		C0EE74F22EAF4E9200778ADD /* Heap */ = {
@@ -337,6 +363,8 @@
 				C07B03622EB4549100E60D4C /* UnionFind */,
 				C07B037A2EBAF08900E60D4C /* Graph */,
 				C0EE75182EB1C44F00778ADD /* Sort */,
+				C0CFB6E72EC2CE8D003415C5 /* Recursion */,
+				C0CFB6EC2EC2DF99003415C5 /* Homework */,
 				C02F507A2E6AD224002B52D7 /* 课件 */,
 				C02F50382E693071002B52D7 /* Base.md */,
 				C0B57DAC2E5424B90054AD2C /* BinaryTree.md */,
@@ -413,6 +441,7 @@
 				C02F50812E711C76002B52D7 /* B-Tree.swift in Sources */,
 				C0EE752A2EB3135B00778ADD /* QuickSort.swift in Sources */,
 				C0EE75202EB1E64C00778ADD /* HeapSort.swift in Sources */,
+				C0CFB6F02EC30DAD003415C5 /* Homework.swift in Sources */,
 				C07B03642EB454A400E60D4C /* UnionFind.swift in Sources */,
 				C0EE751A2EB1C46600778ADD /* Sort.swift in Sources */,
 				C0EE75242EB1F57D00778ADD /* SortTool.swift in Sources */,
@@ -421,6 +450,7 @@
 				C0EE75262EB214F000778ADD /* InsertSort.swift in Sources */,
 				C0B57DAF2E5424B90054AD2C /* Linked.swift in Sources */,
 				C0EE75172EB1C22D00778ADD /* BinaryTreeTest.swift in Sources */,
+				C0CFB6EE2EC2DFB6003415C5 /* HomeworkProtocal.swift in Sources */,
 				C0EE74F62EAF606F00778ADD /* Queue.swift in Sources */,
 				C02F50432E6A820A002B52D7 /* Tree-Leetcode.swift in Sources */,
 				C02F50832E726213002B52D7 /* BalanceBST.swift in Sources */,
@@ -431,6 +461,7 @@
 				C07B037C2EBAF0A700E60D4C /* GraphProtocol.swift in Sources */,
 				C0EE75012EB0C2CF00778ADD /* Trie.swift in Sources */,
 				C07B03742EB9963D00E60D4C /* UnionFind_QU_R_PC.swift in Sources */,
+				C0CFB6E92EC2CF34003415C5 /* Recursion.swift in Sources */,
 				C07B038F2EBC9ECE00E60D4C /* GenericUnionFind.swift in Sources */,
 				C07B037E2EBB43C500E60D4C /* Graph.swift in Sources */,
 				C02F50402E6A7C55002B52D7 /* BinaryTree.swift in Sources */,
@@ -456,6 +487,7 @@
 				C07B035F2EB44CF500E60D4C /* BucketSort.swift in Sources */,
 				C0EE751E2EB1E63600778ADD /* SelectionSort.swift in Sources */,
 				C07B03762EB9A0D300E60D4C /* UnionFindTest.swift in Sources */,
+				C0CFB6EB2EC2CFF1003415C5 /* BackTracking.swift in Sources */,
 				C07B03822EBB534900E60D4C /* GraphData.swift in Sources */,
 				C02F50AA2E8277A1002B52D7 /* HashMap.swift in Sources */,
 			);

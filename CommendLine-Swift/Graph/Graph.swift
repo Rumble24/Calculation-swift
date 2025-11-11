@@ -7,24 +7,16 @@
 
 import Cocoa
 
-class Graph<V: Hashable, E: Hashable>: GraphProtocol {
+class Graph<V: Hashable, E: Hashable, W: WeightManager> : GraphProtocol where W.E == E {
     private var map:[V: Vertex<V,E>] = [:]
     private var edges:Set<Edge<V,E>> = []
 
     // 比较E
-    private let compare: (E, E) -> Int
-    
-    init(compare: @escaping (E, E) -> Int) {
-        self.compare = compare
+    private var weightManager: W
+
+    init(weightManager: W) {
+        self.weightManager = weightManager
     }
-    convenience init() where E: Comparable {
-        self.init(compare: {
-            if $0 < $1 { return -1 }
-            else if $0 > $1 { return 1 }
-            else { return 0 }
-        })
-    }
-    
     
     func verticesSize() -> Int {
         map.count
@@ -227,7 +219,7 @@ extension Graph {
             if addVertext.contains(min.to) {
                 continue
             }
-            edgesSet.append(min.toEdgeInfo())
+            edgesSet.append(min.info())
             addVertext.insert(min.to)
             for edge in min.to.fromEdges {
                 tempSet.insert(edge)
@@ -241,7 +233,7 @@ extension Graph {
     private func findMinEdge(tempSet:Set<Edge<V,E>>) -> Edge<V,E> {
         var min = tempSet.first!
         for edge in tempSet {
-            if self.compare(min.weight!, edge.weight!) > 0 {
+            if self.weightManager.compare(min.weight!, edge.weight!) > 0 {
                 min = edge
             }
         }
@@ -253,13 +245,13 @@ extension Graph {
     // 排序找到最下的 然后 不构成环的话 继续加到数组里
     func kruskal() -> [EdgeInfo<V, E>] {
         if self.map.count < 2 { return [] }
-        if self.map.count == 2 { return [self.map.values.first!.fromEdges.first!.toEdgeInfo()] }
+        if self.map.count == 2 { return [self.map.values.first!.fromEdges.first!.info()] }
         
         var edgesSet:[EdgeInfo<V, E>] = []
         
         let heap = BinaryHeap.create(set: edges) { [weak self] egde1, egde2 in
             guard let self = self else { return 0 }
-            return self.compare(egde2.weight!, egde1.weight!)
+            return self.weightManager.compare(egde2.weight!, egde1.weight!)
         }
         
         let uf = GenericUnionFind<Vertex<V,E>>(set: Set(map.values))
@@ -269,7 +261,7 @@ extension Graph {
             if uf.isSame(v1: edge.from, v2: edge.to) {
                 continue
             }
-            edgesSet.append(edge.toEdgeInfo())
+            edgesSet.append(edge.info())
             uf.union(v1: edge.from, v2: edge.to)
         }
         
@@ -282,8 +274,133 @@ extension Graph {
 // MARK: 最小生成树
 extension Graph {
     // 最短路径 - shortestPath
-    func dijkstra() {
+    // MARK: 返回这个点到所有点的最短路径
+    // 类似小石头绑着绳子
+    // 先加入开始定点的边 获取最小值
+    // 然后对最小的 那个点 进行松弛操作 在比较最小的
+    // a b c d e f g h i j k
+    func dijkstra(begin: V) -> [V:PathInfo<V,E>] {
+        guard let beginVertext = self.map[begin] else { return [:] }
+        // 没有权重
+        for edge in self.edges {
+            if edge.weight == nil { return [:] }
+        }
         
+        // 最终的结果 就是 获取最小值的 V
+        var result: [V:PathInfo<V,E>] = [:]
+
+        // 当前最短路径 - 临时的
+        var tempShortest: [Vertex<V,E>:PathInfo<V,E>] = [:]
+
+        for edge in beginVertext.fromEdges {
+            let pathInfo = PathInfo<V, E>(totalWeight: edge.weight!)
+            pathInfo.path = [edge.info()]
+            tempShortest[edge.to] = pathInfo
+        }
+        
+        while !tempShortest.isEmpty {
+            // 找最小值
+            let (minKey, minValue) = self.minTotalWeight(tempShortest)
+            tempShortest.removeValue(forKey: minKey)
+            result[minKey.value] = minValue
+            
+            // 对最小的 那个点 进行松弛操作
+            for edge in minKey.fromEdges {
+                if result.keys.contains(edge.to.value) || edge.to == beginVertext {
+                    continue
+                }
+                let toVertext = edge.to
+                let totalWeight = self.weightManager.add(minValue.totalWeight, edge.weight!)
+                if let oldPath = tempShortest[toVertext] {
+                    // 更新最小值all
+                    let oldWeight = oldPath.totalWeight
+                    if self.weightManager.compare(totalWeight, oldWeight) < 0 {
+                        oldPath.totalWeight = totalWeight
+                        oldPath.path.removeAll()
+                        oldPath.path.append(contentsOf: minValue.path)
+                        oldPath.path.append(edge.info())
+                    }
+                } else {
+                    let pathInfo = PathInfo<V, E>(totalWeight: totalWeight)
+                    pathInfo.path.append(contentsOf: minValue.path)
+                    pathInfo.path.append(edge.info())
+                    tempShortest[toVertext] = pathInfo
+                }
+            }
+        }
+        
+        return result
+    }
+    
+    private func minTotalWeight(_ tempShortest: [Vertex<V,E>:PathInfo<V,E>]) -> (Vertex<V,E>, PathInfo<V,E>) {
+        var minKey: Vertex<V,E> = tempShortest.keys.first!
+        var minValue:PathInfo<V,E> = tempShortest[minKey]!
+        tempShortest.forEach { (key, value) in
+            if self.weightManager.compare(value.totalWeight, minValue.totalWeight) < 0 {
+                minValue = value
+                minKey = key
+            }
+        }
+        return (minKey, minValue)
+    }
+    
+    
+    // 对所有的边进行 V – 1 次松弛操作 即可得到 最小路径  可以 判断是否有环
+    func bellman(begin: V) -> [V:PathInfo<V,E>] {
+        guard let beginVertext = self.map[begin] else { return [:] }
+        // 没有权重
+        for edge in self.edges {
+            if edge.weight == nil { return [:] }
+        }
+
+        // 当前最短路径 - 临时的
+        var tempShortest: [Vertex<V,E>:PathInfo<V,E>] = [:]
+        tempShortest[beginVertext] = PathInfo(totalWeight: self.weightManager.zero())
+        
+        for _ in 0..<self.map.count - 1 {
+            for edge in self.edges {
+                
+                let minValue = tempShortest[edge.from]
+                
+                guard let minValue = minValue else {
+                    continue
+                }
+                
+                let totalWeight = self.weightManager.add(minValue.totalWeight, edge.weight!)
+                
+                if let oldPath = tempShortest[edge.to] {
+                    // 更新最小值all
+                    if self.weightManager.compare(totalWeight, oldPath.totalWeight) < 0 {
+                        oldPath.totalWeight = totalWeight
+                        oldPath.path.removeAll()
+                        oldPath.path.append(contentsOf: minValue.path)
+                        oldPath.path.append(edge.info())
+                    }
+                } else {
+                    let pathInfo = PathInfo<V, E>(totalWeight: totalWeight)
+                    pathInfo.path.append(contentsOf: minValue.path)
+                    pathInfo.path.append(edge.info())
+                    tempShortest[edge.to] = pathInfo
+                }
+                
+            }
+        }
+        
+        // 最终的结果 就是 获取最小值的 V
+        var result: [V:PathInfo<V,E>] = [:]
+        for item in tempShortest {
+            result[item.key.value] = item.value
+        }
+        result.removeValue(forKey: begin)
+        return result
+    }
+    
+    // 某个点作为k 找到随机的 两个点  检查 dist(i, k) + dist(k, j)＜dist(i, j) 是否成立
+    // 成立 设置 设置 dist(i, j) = dist(i, k) + dist(k, j)；
+    // 当我们遍历完所有结点 k，dist(i, j) 中记录的便是 i 到 j 的最短路径的距离
+    // 返回所有点到所有点的最短路径
+    func floyd() -> [V:[V:PathInfo<V,E>]] {
+        [:]
     }
 }
 
@@ -337,7 +454,7 @@ private class Edge<V: Hashable, E: Hashable>: Hashable {
         hasher.combine(to)
     }
     
-    func toEdgeInfo() -> EdgeInfo<V, E> {
+    func info() -> EdgeInfo<V, E> {
         EdgeInfo(from: from.value, to: to.value, weight: weight)
     }
 }
