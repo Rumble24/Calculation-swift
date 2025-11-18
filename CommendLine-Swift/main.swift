@@ -59,4 +59,10 @@ import Foundation
 //GraphTest.test()
 
 // MARK: - 递归
-RecursionTest.test()
+//RecursionTest.test()
+
+// MARK: - 动态规划
+DPTest.test()
+
+// MARK: - Homework
+//HomeworkTest.test()

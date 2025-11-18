@@ -43,6 +43,9 @@
 		C0CFB6EB2EC2CFF1003415C5 /* BackTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFB6EA2EC2CFF1003415C5 /* BackTracking.swift */; };
 		C0CFB6EE2EC2DFB6003415C5 /* HomeworkProtocal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFB6ED2EC2DFB6003415C5 /* HomeworkProtocal.swift */; };
 		C0CFB6F02EC30DAD003415C5 /* Homework.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFB6EF2EC30DAD003415C5 /* Homework.swift */; };
+		C0CFB6F22EC33922003415C5 /* HomeworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFB6F12EC33922003415C5 /* HomeworkTest.swift */; };
+		C0CFB7352EC42669003415C5 /* DynamicProgramming.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFB7342EC42669003415C5 /* DynamicProgramming.swift */; };
+		C0CFB7472EC586DF003415C5 /* DPTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFB7462EC586DF003415C5 /* DPTest.swift */; };
 		C0EE74F42EAF5CB300778ADD /* TopK.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EE74F32EAF5CB300778ADD /* TopK.swift */; };
 		C0EE74F62EAF606F00778ADD /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EE74F52EAF606F00778ADD /* Queue.swift */; };
 		C0EE74F82EB093ED00778ADD /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EE74F72EB093ED00778ADD /* Heap.swift */; };
@@ -147,6 +150,9 @@
 		C0CFB6EA2EC2CFF1003415C5 /* BackTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackTracking.swift; sourceTree = "<group>"; };
 		C0CFB6ED2EC2DFB6003415C5 /* HomeworkProtocal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkProtocal.swift; sourceTree = "<group>"; };
 		C0CFB6EF2EC30DAD003415C5 /* Homework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Homework.swift; sourceTree = "<group>"; };
+		C0CFB6F12EC33922003415C5 /* HomeworkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkTest.swift; sourceTree = "<group>"; };
+		C0CFB7342EC42669003415C5 /* DynamicProgramming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicProgramming.swift; sourceTree = "<group>"; };
+		C0CFB7462EC586DF003415C5 /* DPTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPTest.swift; sourceTree = "<group>"; };
 		C0EE74F12EAF0C0400778ADD /* BinaryHeap.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BinaryHeap.md; sourceTree = "<group>"; };
 		C0EE74F32EAF5CB300778ADD /* TopK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopK.swift; sourceTree = "<group>"; };
 		C0EE74F52EAF606F00778ADD /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
@@ -278,6 +284,8 @@
 			children = (
 				C0CFB6E82EC2CF34003415C5 /* Recursion.swift */,
 				C0CFB6EA2EC2CFF1003415C5 /* BackTracking.swift */,
+				C0CFB7462EC586DF003415C5 /* DPTest.swift */,
+				C0CFB7342EC42669003415C5 /* DynamicProgramming.swift */,
 			);
 			path = Recursion;
 			sourceTree = "<group>";
@@ -285,6 +293,7 @@
 		C0CFB6EC2EC2DF99003415C5 /* Homework */ = {
 			isa = PBXGroup;
 			children = (
+				C0CFB6F12EC33922003415C5 /* HomeworkTest.swift */,
 				C0CFB6ED2EC2DFB6003415C5 /* HomeworkProtocal.swift */,
 				C0CFB6EF2EC30DAD003415C5 /* Homework.swift */,
 			);
@@ -454,6 +463,7 @@
 				C0EE74F62EAF606F00778ADD /* Queue.swift in Sources */,
 				C02F50432E6A820A002B52D7 /* Tree-Leetcode.swift in Sources */,
 				C02F50832E726213002B52D7 /* BalanceBST.swift in Sources */,
+				C0CFB7472EC586DF003415C5 /* DPTest.swift in Sources */,
 				C02F50372E654FC9002B52D7 /* Stack.swift in Sources */,
 				C02F50AC2E83C866002B52D7 /* TreeMap.swift in Sources */,
 				C0B57DB02E5424B90054AD2C /* SortLeetCode.swift in Sources */,
@@ -466,6 +476,7 @@
 				C07B037E2EBB43C500E60D4C /* Graph.swift in Sources */,
 				C02F50402E6A7C55002B52D7 /* BinaryTree.swift in Sources */,
 				C0EE74F82EB093ED00778ADD /* Heap.swift in Sources */,
+				C0CFB7352EC42669003415C5 /* DynamicProgramming.swift in Sources */,
 				C0EE75032EB0CA0000778ADD /* WordSearch.swift in Sources */,
 				C07B03722EB9961F00E60D4C /* UnionFind_QU_R_PH.swift in Sources */,
 				C07B03802EBB51D000E60D4C /* GraphTest.swift in Sources */,
@@ -476,6 +487,7 @@
 				C07B035D2EB44CE400E60D4C /* CountingSort.swift in Sources */,
 				C0EE751C2EB1E61000778ADD /* BubbleSort.swift in Sources */,
 				C07B03682EB454BA00E60D4C /* UnionFind_QU.swift in Sources */,
+				C0CFB6F22EC33922003415C5 /* HomeworkTest.swift in Sources */,
 				C02F503A2E6942CC002B52D7 /* Node.swift in Sources */,
 				C0FE199D2DF7E3FD00D945C5 /* Hot.swift in Sources */,
 				C07B03612EB44D2C00E60D4C /* RadixSort.swift in Sources */,

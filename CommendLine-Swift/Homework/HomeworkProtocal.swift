@@ -75,4 +75,11 @@ protocol HomeworkProtocal {
      ◼ 查找和最小的K对数字：https://leetcode-cn.com/problems/find-k-pairs-with-smallest-sums/
      ◼ 23. 合并 K 个升序链表 https://leetcode.cn/problems/merge-k-sorted-lists/description/
      */
+    
+    
+    // leetcode_51_N皇后：https://leetcode-cn.com/problems/n-queens/
+    func solveNQueens(_ n: Int) -> [[String]]
+    
+    //1001. 网格照明https://leetcode.cn/problems/grid-illumination/description/
+    func gridIllumination(_ n: Int, _ lamps: [[Int]], _ queries: [[Int]]) -> [Int]
 }
