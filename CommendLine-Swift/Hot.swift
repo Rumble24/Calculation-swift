@@ -7,12 +7,30 @@
 
 import Foundation
 
+
+protocol HotProtocal {
+    // 1. 两数之和
+    func twoSum(_ nums: [Int], _ target: Int) -> [Int]
+    // 49. 字母异位词分组
+    func groupAnagrams(_ strs: [String]) -> [[String]]
+    // 128. 最长连续序列
+    func longestConsecutive(_ nums: [Int]) -> Int
+    // 283. 移动零
+    func moveZeroes(_ nums: inout [Int])
+    // 11. 盛最多水的容器
+    func maxArea(_ height: [Int]) -> Int
+}
+
+
+
 // MARK: 1. 两数之和
-extension Solution {
-//    print("两数之和 \(Solution.twoSum([2,7,11,15], 9))")
-//    print("两数之和 \(Solution.twoSum1([2,7,11,15], 9))")
-    // nums = [2,7,11,15], target = 9
-    static func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+class Solution: HotProtocal {
+    /*
+     输入：nums = [2,7,11,15], target = 9
+     输出：[0,1]
+     解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。
+     */
+    func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
         func startIndex(_ index: Int) -> [Int]? {
             for i in index + 1..<nums.count {
                 if nums[i] + nums[index] == target {
@@ -28,7 +46,7 @@ extension Solution {
         }
         return []
     }
-    static func twoSum1(_ nums: [Int], _ target: Int) -> [Int] {
+    func twoSum1(_ nums: [Int], _ target: Int) -> [Int] {
         var dic:[Int: Int] = [:]
         for i in 0..<nums.count {
             if dic.keys.contains(target - nums[i]) {
@@ -38,14 +56,14 @@ extension Solution {
         }
         return []
     }
-}
-
-
-// MARK: 49. 字母异位词分组
-extension Solution {
     
+    // MARK: 49. 字母异位词分组
+    /*
+     输入: strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
+     输出: [["bat"],["nat","tan"],["ate","eat","tea"]]
+     */
     //1.排序后一样 2.包含的个数一样
-    static func groupAnagrams(_ strs: [String]) -> [[String]] {
+    func groupAnagrams(_ strs: [String]) -> [[String]] {
         if strs.count <= 1 {
             return [strs]
         }
@@ -53,7 +71,7 @@ extension Solution {
         var charNums:[String: [String: Int]] = [:]
         var compares: [String] = []
         var results: [[String]] = []
-
+        
         
         for str in strs {
             var nums:[String: Int] = [:]
@@ -112,7 +130,7 @@ extension Solution {
         var charNums:[String: String] = [:]
         var compares: [String] = []
         var results: [[String]] = []
-
+        
         
         for str in strs {
             charNums[str] = "\(str.sorted())"
@@ -146,16 +164,11 @@ extension Solution {
         
         return results
     }
-}
-
-
-
-
-
-// MARK: 128. 最长连续序列
-extension Solution {
+    
+    
+    // MARK: 128. 最长连续序列
     // [100,4,200,1,3,2]
-    static func longestConsecutive(_ nums: [Int]) -> Int {
+    func longestConsecutive(_ nums: [Int]) -> Int {
         let numSet = Set(nums)  // 转成 Set 用于 O(1) 查询
         var longestStreak = 0
         
@@ -178,29 +191,27 @@ extension Solution {
         
         return longestStreak
     }
-}
-
-
-// MARK: 283. 移动零
-//var nums = [0,1,0,3,12]
-//Solution.moveZeroes(&nums)
-//print(nums)
-extension Solution {
+    
+    
+    // MARK: 283. 移动零
+    //var nums = [0,1,0,3,12]
+    //Solution.moveZeroes(&nums)
+    //print(nums)
     /*
      给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
-
+     
      请注意 ，必须在不复制数组的情况下原地对数组进行操作。
-
+     
      示例 1:
-
+     
      输入: nums = [0,1,0,3,12]
      输出: [1,3,12,0,0]
      示例 2:
-
+     
      输入: nums = [0]
      输出: [0]
      */
-    static func moveZeroes(_ nums: inout [Int]) {
+    func moveZeroes(_ nums: inout [Int]) {
         var left = 0
         var right = 0
         let count = nums.count
@@ -212,20 +223,20 @@ extension Solution {
             right += 1
         }
     }
-}
-
-
-// MARK: 11. 盛最多水的容器
-class Solution {
-/// 木桶原理，木桶能装多少的水，取决于短的木板，按照本题算面积，应该是拿短的当高，高确定的情况下，长度最长面积就最大，也就是不管怎么移动长的那根（前提是往短的这边移动），面积都会小于最开始的面积，所以需要移动短的那根，再以此往复的寻找最大的面积。
-
+    
+    
+    // MARK: 11. 盛最多水的容器
+    /// 木桶原理，木桶能装多少的水，取决于短的木板，
+    /// 按照本题算面积，应该是拿短的当高，高确定的情况下，长度最长面积就最大，也就是不管怎么移动长的那根（前提是往短的这边移动），
+    /// 面积都会小于最开始的面积，所以需要移动短的那根，再以此往复的寻找最大的面积。
+    
     /*
      输入：[1,8,6,2,5,4,8,3,7]
      输出：49
      解释：图中垂直线代表输入数组 [1,8,6,2,5,4,8,3,7]。在此情况下，容器能够容纳水（表示为蓝色部分）的最大值为 49。
      */
     
-    static func maxArea(_ height: [Int]) -> Int {
+    func maxArea(_ height: [Int]) -> Int {
         if height.count < 2 {
             return 0
         }
@@ -245,5 +256,5 @@ class Solution {
         
         return area
     }
-
+    
 }
