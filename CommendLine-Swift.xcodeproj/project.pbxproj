@@ -22,6 +22,7 @@
 		C02F50AE2E83C879002B52D7 /* LinkedHashMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02F50AD2E83C879002B52D7 /* LinkedHashMap.swift */; };
 		C06F95152ECC0CB20092C9CD /* B+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06F95142ECC0CB20092C9CD /* B+.swift */; };
 		C06F95172ECC0D770092C9CD /* JumpLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06F95162ECC0D770092C9CD /* JumpLink.swift */; };
+		C06F951A2ECC13C50092C9CD /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06F95192ECC13C50092C9CD /* Queue.swift */; };
 		C07B035D2EB44CE400E60D4C /* CountingSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07B035C2EB44CE400E60D4C /* CountingSort.swift */; };
 		C07B035F2EB44CF500E60D4C /* BucketSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07B035E2EB44CF500E60D4C /* BucketSort.swift */; };
 		C07B03612EB44D2C00E60D4C /* RadixSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07B03602EB44D2C00E60D4C /* RadixSort.swift */; };
@@ -49,7 +50,6 @@
 		C0CFB7352EC42669003415C5 /* DynamicProgramming.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFB7342EC42669003415C5 /* DynamicProgramming.swift */; };
 		C0CFB7472EC586DF003415C5 /* DPTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CFB7462EC586DF003415C5 /* DPTest.swift */; };
 		C0EE74F42EAF5CB300778ADD /* TopK.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EE74F32EAF5CB300778ADD /* TopK.swift */; };
-		C0EE74F62EAF606F00778ADD /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EE74F52EAF606F00778ADD /* Queue.swift */; };
 		C0EE74F82EB093ED00778ADD /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EE74F72EB093ED00778ADD /* Heap.swift */; };
 		C0EE74FA2EB09E1D00778ADD /* BinaryHeap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EE74F92EB09E1D00778ADD /* BinaryHeap.swift */; };
 		C0EE75012EB0C2CF00778ADD /* Trie.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EE75002EB0C2CF00778ADD /* Trie.swift */; };
@@ -120,6 +120,7 @@
 		C02F50AD2E83C879002B52D7 /* LinkedHashMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedHashMap.swift; sourceTree = "<group>"; };
 		C06F95142ECC0CB20092C9CD /* B+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "B+.swift"; sourceTree = "<group>"; };
 		C06F95162ECC0D770092C9CD /* JumpLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpLink.swift; sourceTree = "<group>"; };
+		C06F95192ECC13C50092C9CD /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		C07B035C2EB44CE400E60D4C /* CountingSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountingSort.swift; sourceTree = "<group>"; };
 		C07B035E2EB44CF500E60D4C /* BucketSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketSort.swift; sourceTree = "<group>"; };
 		C07B03602EB44D2C00E60D4C /* RadixSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadixSort.swift; sourceTree = "<group>"; };
@@ -159,7 +160,6 @@
 		C0CFB7462EC586DF003415C5 /* DPTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPTest.swift; sourceTree = "<group>"; };
 		C0EE74F12EAF0C0400778ADD /* BinaryHeap.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BinaryHeap.md; sourceTree = "<group>"; };
 		C0EE74F32EAF5CB300778ADD /* TopK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopK.swift; sourceTree = "<group>"; };
-		C0EE74F52EAF606F00778ADD /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		C0EE74F72EB093ED00778ADD /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
 		C0EE74F92EB09E1D00778ADD /* BinaryHeap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryHeap.swift; sourceTree = "<group>"; };
 		C0EE75002EB0C2CF00778ADD /* Trie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trie.swift; sourceTree = "<group>"; };
@@ -272,6 +272,16 @@
 			path = "B+树";
 			sourceTree = "<group>";
 		};
+		C06F95182ECC12E80092C9CD /* Linked */ = {
+			isa = PBXGroup;
+			children = (
+				C02F50362E654FC9002B52D7 /* Stack.swift */,
+				C06F95192ECC13C50092C9CD /* Queue.swift */,
+				C0B57DAA2E5424B90054AD2C /* Linked.swift */,
+			);
+			path = Linked;
+			sourceTree = "<group>";
+		};
 		C07B03622EB4549100E60D4C /* UnionFind */ = {
 			isa = PBXGroup;
 			children = (
@@ -382,9 +392,7 @@
 			children = (
 				C0FE199B2DF7E3FD00D945C5 /* main.swift */,
 				C0FE199A2DF7E3FD00D945C5 /* Hot.swift */,
-				C0B57DAA2E5424B90054AD2C /* Linked.swift */,
-				C0EE74F52EAF606F00778ADD /* Queue.swift */,
-				C02F50362E654FC9002B52D7 /* Stack.swift */,
+				C06F95182ECC12E80092C9CD /* Linked */,
 				C02F50412E6A7C5A002B52D7 /* Tree */,
 				C02F50A82E827789002B52D7 /* Map */,
 				C0EE74F22EAF4E9200778ADD /* Heap */,
@@ -483,7 +491,6 @@
 				C0B57DAF2E5424B90054AD2C /* Linked.swift in Sources */,
 				C0EE75172EB1C22D00778ADD /* BinaryTreeTest.swift in Sources */,
 				C0CFB6EE2EC2DFB6003415C5 /* HomeworkProtocal.swift in Sources */,
-				C0EE74F62EAF606F00778ADD /* Queue.swift in Sources */,
 				C02F50432E6A820A002B52D7 /* Tree-Leetcode.swift in Sources */,
 				C02F50832E726213002B52D7 /* BalanceBST.swift in Sources */,
 				C0CFB7472EC586DF003415C5 /* DPTest.swift in Sources */,
@@ -522,6 +529,7 @@
 				C02F507D2E6FC39D002B52D7 /* AVLTree.swift in Sources */,
 				C07B035F2EB44CF500E60D4C /* BucketSort.swift in Sources */,
 				C0EE751E2EB1E63600778ADD /* SelectionSort.swift in Sources */,
+				C06F951A2ECC13C50092C9CD /* Queue.swift in Sources */,
 				C07B03762EB9A0D300E60D4C /* UnionFindTest.swift in Sources */,
 				C0CFB6EB2EC2CFF1003415C5 /* BackTracking.swift in Sources */,
 				C07B03822EBB534900E60D4C /* GraphData.swift in Sources */,

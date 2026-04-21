@@ -29,6 +29,11 @@
  */
 import Foundation
 
+
+// MARK: - Hot100
+HotTest.test()
+
+
 // MARK: - 二叉树
 // TODO: 红黑树 删除之后的 平衡操作
 // TreeMap/HashMap/LinkedHashMap
@@ -62,7 +67,7 @@ import Foundation
 //RecursionTest.test()
 
 // MARK: - 动态规划
-DPTest.test()
+//DPTest.test()
 
 // MARK: - Homework
 //HomeworkTest.test()

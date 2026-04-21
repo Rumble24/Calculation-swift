@@ -19,6 +19,28 @@ protocol HotProtocal {
     func moveZeroes(_ nums: inout [Int])
     // 11. 盛最多水的容器
     func maxArea(_ height: [Int]) -> Int
+    // 24. 反转链表 给定单链表的头节点 head
+    func reverseList(_ head: ListNode?) -> ListNode?
+    // 15.三数之和
+    func threeSum(_ nums: [Int]) -> [[Int]]
+    // 42. 接雨水 动态规划
+    func trap(_ height: [Int]) -> Int
+    // 438. 找到字符串中所有字母异位词
+    func findAnagrams(_ s: String, _ p: String) -> [Int]
+}
+
+class HotTest {
+    static func test() {
+//        debugPrint("最长连续序列 \(Solution().longestConsecutive([100,4,200,1,3,2,5,7]))")
+//        debugPrint("盛最多水的容器 \(Solution().maxArea([0,1,0,2,1,0,1,3,2,1,2,1]))")
+//        debugPrint("三数之和 \(Solution().threeSum([-1,0,1,2,-1,-4]))")
+//        debugPrint("三数之和 1 \(Solution().threeSum1([-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6]))")
+        
+        
+//        debugPrint("接雨水 \(Solution().trap([0,1,0,2,1,0,1,3,2,1,2,1]))")
+//        debugPrint("接雨水 \(Solution().trap([4,2,0,3,2,5]))")
+        debugPrint("接雨水 \(Solution().trap([5,4,1,2]))")
+    }
 }
 
 
@@ -167,29 +189,28 @@ class Solution: HotProtocal {
     
     
     // MARK: 128. 最长连续序列
-    // [100,4,200,1,3,2]
+    /*
+     输入：nums = [100,4,200,1,3,2]
+     输出：4
+     解释：最长数字连续序列是 [1, 2, 3, 4]。它的长度为 4。
+     思路： 看看它是不是 开始的
+     */
     func longestConsecutive(_ nums: [Int]) -> Int {
-        let numSet = Set(nums)  // 转成 Set 用于 O(1) 查询
-        var longestStreak = 0
-        
-        for num in numSet {
-            // 只有当 num 是序列起点时才处理（即 num-1 不在集合中）
-            if !numSet.contains(num - 1) {
-                var currentNum = num
-                var currentStreak = 1
-                
-                // 持续检查下一个数是否存在
-                while numSet.contains(currentNum + 1) {
-                    currentNum += 1
-                    currentStreak += 1
+        guard nums.count > 0 else {
+            return 0
+        }
+        let set = Set(nums)
+        var result = 0
+        for num in set {
+            if !set.contains(num - 1) {
+                var start = num
+                while set.contains(start + 1) {
+                    start += 1
                 }
-                
-                // 更新最长序列长度
-                longestStreak = max(longestStreak, currentStreak)
+                result = max(result, start - num + 1)
             }
         }
-        
-        return longestStreak
+        return result
     }
     
     
@@ -255,6 +276,152 @@ class Solution: HotProtocal {
         }
         
         return area
+    }
+    
+    
+    // 24. 反转链表 给定单链表的头节点 head - 1 2 3 4
+    func reverseList(_ head: ListNode?) -> ListNode? {
+        var pre:ListNode? = nil
+        var current = head
+        while current != nil {
+            let next = current?.next
+            current?.next = pre
+            pre = current
+            current = next
+        }
+        return current
+    }
+    
+    /*
+     
+     输入：nums = [-1,0,1,2,-1,-4]
+     输出：[[-1,-1,2],[-1,0,1]]
+     解释：
+     nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0 。
+     nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0 。
+     nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0 。
+     不同的三元组是 [-1,0,1] 和 [-1,-1,2] 。
+     注意，输出的顺序和三元组的顺序并不重要。
+     
+     给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == 0 。请你返回所有和为 0 且不重复的三元组。
+
+     注意：答案中不可以包含重复的三元组。
+     */
+    func threeSum(_ nums: [Int]) -> [[Int]] {
+        guard nums.count > 2 else {
+            return []
+        }
+        let sort = nums.sorted()
+        debugPrint("sort \(sort)")
+        var last0: Int = Int.min
+        var last1: Int = Int.min
+
+        var result:[[Int]] = []
+        for i in 0..<sort.count - 2 {
+            for j in i + 1..<sort.count - 1 {
+                for k in j + 1..<sort.count {
+                    if sort[i] + sort[j] + sort[k] == 0, last0 != sort[i], last1 != sort[j] {
+                        result.append([sort[i] , sort[j], sort[k]])
+                    }
+                }
+                last1 = sort[j]
+            }
+            last0 = sort[i]
+        }
+        
+        return result
+    }
+    
+    // 双指针 那么只需要 on2
+    // [-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6]
+    func threeSum1(_ nums: [Int]) -> [[Int]] {
+        guard nums.count >= 3 else { return [] }
+        
+        let sorted = nums.sorted()
+        var result = [[Int]]()
+        
+        for i in 0..<sorted.count - 2 {
+            // 优化1: 跳过重复的 i
+            if i > 0 && sorted[i] == sorted[i - 1] {
+                continue
+            }
+            
+            // 优化2: 提前终止 - 如果当前数已经大于0，后面的数都更大，不可能和为0
+            if sorted[i] > 0 {
+                break
+            }
+            
+            var left = i + 1
+            var right = sorted.count - 1
+            
+            while left < right {
+                let sum = sorted[i] + sorted[left] + sorted[right]
+                
+                if sum == 0 {
+                    result.append([sorted[i], sorted[left], sorted[right]])
+                    
+                    // 优化3: 跳过重复的 left 和 right
+                    while left < right && sorted[left] == sorted[left + 1] {
+                        left += 1
+                    }
+                    while left < right && sorted[right] == sorted[right - 1] {
+                        right -= 1
+                    }
+                    
+                    left += 1
+                    right -= 1
+                } else if sum < 0 {
+                    left += 1
+                } else {
+                    right -= 1
+                }
+            }
+        }
+        
+        return result
+    }
+    
+    
+    // 42. 接雨水 [0,1,0,2,1,0,1,3,2,1,2, 1]
+    //            0 1 2 3 4 5 6 7 8 9 10 11
+    // 动态规划问题
+    func trap(_ height: [Int]) -> Int {
+        guard height.count > 2 else {
+            return 0
+        }
+        return 0
+    }
+    
+    // 438. 找到字符串中所有字母异位词
+    /*
+     示例 1:
+
+     输入: s = "cbaebabacd", p = "abc"
+     输出: [0,6]
+     解释:
+     起始索引等于 0 的子串是 "cba", 它是 "abc" 的异位词。
+     起始索引等于 6 的子串是 "bac", 它是 "abc" 的异位词。
+     */
+    /*
+     思路：周到所有的异位词 然后一一对比
+     */
+    
+    func findAnagrams(_ s: String, _ p: String) -> [Int] {
+     
+        func getAllAnagrams() -> [String] {
+            var arr:[[Character]] = []
+            for (index, char) in p.enumerated() {
+                if index == 0 {
+                    arr.append([char])
+                } else {
+                    var temp:[Character] = []
+                    for item in arr {
+                        temp
+                    }
+                }
+            }
+            return []
+        }
     }
     
 }

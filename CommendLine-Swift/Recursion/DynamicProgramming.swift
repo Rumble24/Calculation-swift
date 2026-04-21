@@ -315,12 +315,12 @@ extension DynamicProgramming {
         guard values.count != 0, values.count == weights.count, capacity > 0 else {
             return -1
         }
-        var dp:[Int] = Array(repeating: 0, count: capacity)
-        var r = 0
-        for (index, weight) in weights.enumerated() {
-            <#body#>
-        }
-        
+//        var dp:[Int] = Array(repeating: 0, count: capacity)
+//        var r = 0
+//        for (index, weight) in weights.enumerated() {
+//            <#body#>
+//        }
+//        
         return 0
     }
 }
